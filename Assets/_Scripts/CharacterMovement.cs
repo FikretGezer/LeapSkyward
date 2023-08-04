@@ -17,6 +17,7 @@ public class CharacterMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 velocity;
     private bool isGrounded;
+    private Transform _currentPlatform;
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -33,6 +34,23 @@ public class CharacterMovement : MonoBehaviour
         {
             _rb.AddForce(Vector2.up * _jumpForce);
         }
+        if(_currentPlatform != null)
+        {
+            var playerPos = transform.position;
+            var platformPosX = _currentPlatform.position.x; 
+            var offsetX = 0f;
+            if(playerPos.x < platformPosX)
+            {
+                offsetX = playerPos.x - transform.position.x;
+            }
+            // else
+            // {
+            //     offsetX = playerPos.x + transform.position.x;
+            // }
+
+            playerPos.x = _currentPlatform.position.x - offsetX;
+            transform.position = playerPos;
+        }
         
     }
     private bool Grounded()
@@ -40,5 +58,14 @@ public class CharacterMovement : MonoBehaviour
         Collider2D col = Physics2D.OverlapCircle(_groundObjectTransform.position, _groundDistance, _groundLayer);
         if(col.gameObject != gameObject) return true;
         else return false;
+    }
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "platform")
+        {
+            _currentPlatform = other.transform;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D other) {
+        if(_currentPlatform != null) _currentPlatform = null;
     }
 }
