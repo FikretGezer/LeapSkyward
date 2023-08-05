@@ -22,8 +22,6 @@ public class PlatformMovement : MonoBehaviour
 
         transform.position = startPos;
     }
-    private void Start() {
-    }
     void Update()
     {
         if(_current == _target) _target = _current == 1 ? 0 : 1;        

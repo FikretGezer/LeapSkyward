@@ -8,6 +8,8 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _jumpForce = 5f;
 
+    [SerializeField] private Transform _currentPlatform;
+
     [Header("Grounded Properties")]
     [SerializeField] private float _gravity = -9.81f;
     [SerializeField] private Transform _groundObjectTransform;
@@ -15,57 +17,67 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
 
     private Rigidbody2D _rb;
-    private Vector2 velocity;
     private bool isGrounded;
-    private Transform _currentPlatform;
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        float hor = Input.GetAxis("Horizontal");
-        
         isGrounded = Grounded();
-        Debug.Log(isGrounded);
+        if(isGrounded)
+            MoveWithPlatform();
+    }
+    private void FixedUpdate() {
+        KeyboardControls();
+        TouchControls();
+    }
+    private void KeyboardControls()
+    {
+        float hor = Input.GetAxis("Horizontal");
         if(hor != 0)
             _rb.velocity = new Vector2(hor * _movementSpeed * Time.deltaTime, _rb.velocity.y);
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
             _rb.AddForce(Vector2.up * _jumpForce);
-        }
-        if(_currentPlatform != null)
+    }
+    private void TouchControls()
+    {
+        if(Input.touchCount > 0)
         {
-            var playerPos = transform.position;
-            var platformPosX = _currentPlatform.position.x; 
-            var offsetX = 0f;
-            if(playerPos.x < platformPosX)
-            {
-                offsetX = playerPos.x - transform.position.x;
-            }
-            // else
-            // {
-            //     offsetX = playerPos.x + transform.position.x;
-            // }
-
-            playerPos.x = _currentPlatform.position.x - offsetX;
-            transform.position = playerPos;
+            Touch touch = Input.GetTouch(0);
+            if(touch.phase == TouchPhase.Began && isGrounded)
+                _rb.AddForce(Vector2.up * _jumpForce);
         }
-        
+    }
+    private void MoveWithPlatform()
+    {
+        if(_currentPlatform != null)
+            transform.parent  = _currentPlatform;
+        else
+            transform.parent = null;
     }
     private bool Grounded()
     {
-        Collider2D col = Physics2D.OverlapCircle(_groundObjectTransform.position, _groundDistance, _groundLayer);
-        if(col.gameObject != gameObject) return true;
-        else return false;
+        Collider2D[] colObjects = Physics2D.OverlapCircleAll(_groundObjectTransform.position, _groundDistance, _groundLayer);
+        foreach(var colObj in colObjects)
+        {
+            if(colObj.gameObject != gameObject) 
+            {
+                return true;
+            }
+        }
+        return false;
     }
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.tag == "platform")
-        {
+        if(isGrounded && other.gameObject.tag == "platform")
             _currentPlatform = other.transform;
-        }
     }
     private void OnCollisionExit2D(Collision2D other) {
-        if(_currentPlatform != null) _currentPlatform = null;
+        if(!isGrounded && other.gameObject.tag == "platform")
+            _currentPlatform = null;
+    }
+    private void OnDrawGizmos() {
+        Gizmos.color = isGrounded ? Color.blue : Color.red;
+        Gizmos.DrawWireSphere(_groundObjectTransform.position, _groundDistance);
     }
 }
