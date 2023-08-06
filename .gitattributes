@@ -1,2 +1,8 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+*.cs linguist-detectable=true
+*.shader linguist-detectable=false
+*.hlsl linguist-detectable=false
+*.cginc linguist-detectable=false
+*.fx linguist-detectable=false
+*.fxh linguist-detectable=false
+*.hlsli linguist-detectable=false
+
