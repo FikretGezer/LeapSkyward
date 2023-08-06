@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class PlatformSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform _platformsParent;
-    [SerializeField] private GameObject _platformPrefab;
-    private int platformSpawnCount = 10;
-
-    private void Awake() {
-
-        Vector2 startPos = new Vector2(0, -1.5f);
-        for(int i = 0; 0 < platformSpawnCount; i++) 
+    [SerializeField] private Transform[] platforms;
+    [SerializeField] private Transform _controlPoint;
+    private void Update() {  
+        foreach(var platform in platforms)
         {
-            Instantiate(_platformPrefab, startPos, Quaternion.identity);
-            startPos.y += 2f;
+            if(platform.transform.position.y < _controlPoint.position.y)
+            {
+                platform.gameObject.SetActive(false);
+                platform.position = new Vector2(platform.position.x, 2f * platforms.Length + platform.position.y);
+                platform.gameObject.SetActive(true);
+            }
         }
     }
 }

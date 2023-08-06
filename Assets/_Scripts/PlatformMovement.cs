@@ -10,8 +10,8 @@ public class PlatformMovement : MonoBehaviour
     private float _current, _target;
     private Vector2 _moveTarget, startPos;
 
-    private void Awake() {
-        _lerpSpeed = Random.Range(0.5f, 0.7f);
+    private void OnEnable() {
+        _lerpSpeed = Random.Range(0.1f, 1.5f);
 
         startPos = _movementPositions[Random.Range(0, _movementPositions.Length)];
 
@@ -26,7 +26,7 @@ public class PlatformMovement : MonoBehaviour
     {
         if(_current == _target) _target = _current == 1 ? 0 : 1;        
         _current = Mathf.MoveTowards(_current, _target, _lerpSpeed * Time.deltaTime);
-        
+        //startPos.y = _moveTarget.y = transform.position.y;
         transform.position = Vector2.Lerp(startPos, _moveTarget, _current);
     }
 }
