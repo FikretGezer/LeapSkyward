@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraMovement : MonoBehaviour
 {
@@ -43,9 +44,13 @@ public class CameraMovement : MonoBehaviour
         {
             transform.Translate(Time.deltaTime * moveSpeed * Vector2.up);
         }
-        Vector3 point = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0f));
-        
-        if(_playerTransform.position.y + 0.7f < point.y)   Debug.Log("Shit");
+
+        Vector3 point = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0f));        
+        if(_playerTransform.position.y + 0.7f < point.y)
+        {
+           Debug.Log("Shit");
+           SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
 
     }
 }

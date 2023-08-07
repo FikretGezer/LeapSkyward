@@ -6,16 +6,16 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _score;
-    private int score = 0;
 
     public static ScoreManager Instance;
+    private int score = 0;
     private void Awake() {
         if(Instance == null) Instance = this;
-        UpdateScore();
+        UpdateScore(0);
     }
-    public void UpdateScore()
+    public void UpdateScore(int addingScore)
     {
-        score++;
+        score += addingScore;
         _score.text = score.ToString();
     }
 }

@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class CharacterMovement : MonoBehaviour
 {
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _jumpForce = 5f;
-
-    [SerializeField] private Transform _currentPlatform;
-
+ 
     [Header("Grounded Properties")]
     [SerializeField] private Transform _groundObjectTransform;
     [SerializeField] private float _groundDistance = 0.2f;
     [SerializeField] private LayerMask _groundLayer;
 
     private Rigidbody2D _rb;
+    private Transform _currentPlatform;
     private bool isGrounded;
     private bool isJumped;
+    private float highestPlatformClimbed = -10f;
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -53,7 +55,9 @@ public class CharacterMovement : MonoBehaviour
             _rb.velocity = new Vector2(hor * _movementSpeed, _rb.velocity.y);
         }
         if(isJumped && isGrounded)
+        {
             _rb.AddForce(Vector2.up * _jumpForce);
+        }
     }
     private void ResetParameters()
     {
@@ -79,21 +83,20 @@ public class CharacterMovement : MonoBehaviour
                 }
             }
         }
-        return false;
-        
+        return false; 
     }
-    
     private void OnCollisionEnter2D(Collision2D other) {
         if(isGrounded && other.gameObject.tag == "platform")
         {
             _currentPlatform = other.transform;
-            ScoreManager.Instance.UpdateScore();
-        }
-        if(other.gameObject.tag == "wall")
-        {
-            var collingPoint = other.transform.position;
-            var dir = transform.position - collingPoint;
+            if(_currentPlatform.position.y > highestPlatformClimbed)
+            {
+                highestPlatformClimbed = _currentPlatform.position.y;
 
+                ComboCounter.Instance.StartRoutine();  
+
+                ScoreManager.Instance.UpdateScore(1);
+            }
         }
     }
     private void OnCollisionExit2D(Collision2D other) {
