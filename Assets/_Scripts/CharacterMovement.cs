@@ -57,7 +57,7 @@ public class CharacterMovement : MonoBehaviour
     }
     private void FundamentalMovements(float hor)
     {
-        _rb.AddForce(Physics.gravity * (_currentGravityScale - 1) * _rb.mass);
+        _rb.AddForce(Physics.gravity * (_currentGravityScale - 1) * _rb.mass * Time.deltaTime, ForceMode2D.Impulse);
 
         if(hor != 0)
         {
@@ -65,7 +65,7 @@ public class CharacterMovement : MonoBehaviour
         }
         if(isJumped && isGrounded)
         {
-            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _rb.AddForce(Vector2.up * _jumpForce * Time.deltaTime, ForceMode2D.Impulse);
         }
         if(_rb.velocity.y >= 0) _currentGravityScale = _gravityScale;
         else _currentGravityScale = _fallingGravityScale;

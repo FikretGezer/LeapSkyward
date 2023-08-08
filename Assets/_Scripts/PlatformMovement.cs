@@ -11,7 +11,7 @@ public class PlatformMovement : MonoBehaviour
     private Vector2 _moveTarget, startPos;
 
     private void OnEnable() {
-        _lerpSpeed = Random.Range(0.1f, .2f);
+        _lerpSpeed = Random.Range(0.4f, 1.3f);
 
         startPos = _movementPositions[Random.Range(0, _movementPositions.Length)];
 
