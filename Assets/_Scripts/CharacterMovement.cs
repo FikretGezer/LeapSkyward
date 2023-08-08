@@ -6,8 +6,12 @@ using TMPro;
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class CharacterMovement : MonoBehaviour
 {
+    [Header("Moving Parameters")]
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _jumpForce = 5f;
+    [SerializeField] private float _gravityScale = 10f;
+    [SerializeField] private float _fallingGravityScale = 10f;
+    [SerializeField] private float _currentGravityScale = 10f;
  
     [Header("Grounded Properties")]
     [SerializeField] private Transform _groundObjectTransform;
@@ -23,6 +27,7 @@ public class CharacterMovement : MonoBehaviour
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _currentGravityScale = _gravityScale;
     }
     void Update()
     {
@@ -32,6 +37,8 @@ public class CharacterMovement : MonoBehaviour
     private void FixedUpdate() {
         float hor = Input.GetAxis("Horizontal");
         isGrounded = Grounded();
+        
+
         FundamentalMovements(hor);
         ResetParameters();
     }
@@ -50,14 +57,18 @@ public class CharacterMovement : MonoBehaviour
     }
     private void FundamentalMovements(float hor)
     {
+        _rb.AddForce(Physics.gravity * (_currentGravityScale - 1) * _rb.mass);
+
         if(hor != 0)
         {
             _rb.velocity = new Vector2(hor * _movementSpeed, _rb.velocity.y);
         }
         if(isJumped && isGrounded)
         {
-            _rb.AddForce(Vector2.up * _jumpForce);
+            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
         }
+        if(_rb.velocity.y >= 0) _currentGravityScale = _gravityScale;
+        else _currentGravityScale = _fallingGravityScale;
     }
     private void ResetParameters()
     {
@@ -93,8 +104,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 highestPlatformClimbed = _currentPlatform.position.y;
 
-                ComboCounter.Instance.StartRoutine();  
-
+                ComboCounter.Instance.StartRoutine(); 
                 ScoreManager.Instance.UpdateScore(1);
             }
         }

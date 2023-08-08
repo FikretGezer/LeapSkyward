@@ -694,7 +694,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &612204824
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -6736,7 +6736,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementSpeed: 5
-  _jumpForce: 2000
+  _jumpForce: 4500
+  _gravityScale: 5
+  _fallingGravityScale: 10
+  _currentGravityScale: 10
   _groundObjectTransform: {fileID: 787547281}
   _groundDistance: 0.11
   _groundLayer:
