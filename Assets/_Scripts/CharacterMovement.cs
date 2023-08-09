@@ -65,6 +65,7 @@ public class CharacterMovement : MonoBehaviour
         }
         if(isJumped && isGrounded)
         {
+            CharacterAnimations.Instance.PlaySmokeEffect((Vector2)transform.position);
             _rb.AddForce(Vector2.up * _jumpForce * Time.deltaTime, ForceMode2D.Impulse);
         }
         if(_rb.velocity.y >= 0) _currentGravityScale = _gravityScale;
