@@ -31,6 +31,9 @@ public class ComboCounter : MonoBehaviour
     }
     private void Update() {
         FillUpBar();
+        if(comboCount > 0) _comboCountTxt.gameObject.SetActive(true);
+        else _comboCountTxt.gameObject.SetActive(false);
+        
     }
     private IEnumerator Timer()
     {
