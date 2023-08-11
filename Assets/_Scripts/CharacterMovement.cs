@@ -40,6 +40,7 @@ public class CharacterMovement : MonoBehaviour
         
 
         FundamentalMovements(hor);
+        TurnCharacters(hor);
         ResetParameters();
     }
     private void Controls()
@@ -62,14 +63,40 @@ public class CharacterMovement : MonoBehaviour
         if(hor != 0)
         {
             _rb.velocity = new Vector2(hor * _movementSpeed, _rb.velocity.y);
+            CharacterAnimations.Instance.RunningAnimation(true);
+        }
+        else
+        {
+            var vel = _rb.velocity;
+            vel.x = 0f;
+            _rb.velocity = vel;
+            CharacterAnimations.Instance.RunningAnimation(false);
         }
         if(isJumped && isGrounded)
         {
             CharacterAnimations.Instance.PlaySmokeEffect((Vector2)transform.position);
+            CharacterAnimations.Instance.JumpingAnimation(true);
             _rb.AddForce(Vector2.up * _jumpForce * Time.deltaTime, ForceMode2D.Impulse);
+        }
+        if(_rb.velocity.y < 0 && !isGrounded)
+        {
+            CharacterAnimations.Instance.JumpingAnimation(false);
         }
         if(_rb.velocity.y >= 0) _currentGravityScale = _gravityScale;
         else _currentGravityScale = _fallingGravityScale;
+    }
+    private void TurnCharacters(float hor)
+    {
+        var scale = transform.localScale;
+        if(hor >= 0)
+        {
+            scale.x = 0.7f;
+        }
+        else 
+        {
+            scale.x = -0.7f;
+        }
+        transform.localScale = scale;
     }
     private void ResetParameters()
     {
