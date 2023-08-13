@@ -32,10 +32,13 @@ public class ComboCounter : MonoBehaviour
     private void Update() {
         FillUpBar();
         if(comboCount > 0) _comboCountTxt.gameObject.SetActive(true);
-        else _comboCountTxt.gameObject.SetActive(false);
-        
+        else
+        {
+            //_comboCountTxt.text = (comboCount * 10).ToString();
+            _comboCountTxt.gameObject.SetActive(false);
+        }           
     }
-    private IEnumerator Timer()
+    private IEnumerator ComboTimer()
     {
         maxTime = timerMaxTime;
         comboCount++;
@@ -49,8 +52,9 @@ public class ComboCounter : MonoBehaviour
             yield return null;
         }
         ScoreManager.Instance.UpdateScore(comboCount * 10);
+        _comboCountTxt.text = (comboCount * 10).ToString();
         comboCount = 0;
-        _comboCountTxt.text = comboCount.ToString(); 
+        //_comboCountTxt.text = comboCount.ToString(); 
         Debug.Log("<color=red> Reset Combo </color>");
     }
     private void FillUpBar()
@@ -62,8 +66,8 @@ public class ComboCounter : MonoBehaviour
     }
     public void StartRoutine()
     {
-        StopCoroutine(nameof(Timer));
-        StartCoroutine(nameof(Timer));
+        StopCoroutine(nameof(ComboTimer));
+        StartCoroutine(nameof(ComboTimer));
     }
     
 }

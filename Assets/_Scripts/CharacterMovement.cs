@@ -106,15 +106,10 @@ public class CharacterMovement : MonoBehaviour
     {
         if(_currentPlatform != null)
         {
-            //transform.parent  = _currentPlatform;
-            //SetNewParent(transform, _currentPlatform);
+            transform.parent  = _currentPlatform;
         }
         else
             transform.parent = null;
-    }
-    public void SetNewParent(Transform childTransform, Transform newParent)
-    {
-        Vector3 originalWorldScale = childTransform.lossyScale;
     }
     private bool Grounded()
     {

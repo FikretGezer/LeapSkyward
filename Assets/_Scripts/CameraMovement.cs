@@ -49,7 +49,8 @@ public class CameraMovement : MonoBehaviour
         if(_playerTransform.position.y + 0.7f < point.y)
         {
            Debug.Log("Shit");
-           SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+           ButtonController.Instance.EnableEndGameMenu();
+           //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
     }
