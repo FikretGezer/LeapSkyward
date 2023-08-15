@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class SoundController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private AudioSource soundFxObject;
+    
+    public static SoundController Instance;
+    private void Awake()
     {
-        
+        if (Instance == null) Instance = this;
     }
-
-    // Update is called once per frame
-    void Update()
+    public void PlaySoundFX(AudioClip audioClip, Transform spawnTransform, float volume)
     {
-        
+        AudioSource audioSource = Instantiate(soundFxObject, spawnTransform.position, Quaternion.identity);
+        audioSource.clip = audioClip;   
+        audioSource.volume = volume;   
+        audioSource.Play();
+        float clipLength = audioSource.clip.length;
+        Destroy(audioSource.gameObject, clipLength);
     }
 }
