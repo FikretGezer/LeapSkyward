@@ -6,6 +6,8 @@ using TMPro;
 [RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class CharacterMovement : MonoBehaviour
 {
+    [SerializeField] private AudioClip _jumpClip;
+
     [Header("Moving Parameters")]
     [SerializeField] private float _movementSpeed = 3f;
     [SerializeField] private float _jumpForce = 5f;
@@ -76,6 +78,9 @@ public class CharacterMovement : MonoBehaviour
         {
             CharacterAnimations.Instance.PlaySmokeEffect((Vector2)transform.position);
             CharacterAnimations.Instance.JumpingAnimation(true);
+
+            SoundController.Instance.PlaySoundFX(_jumpClip, transform, 1f);
+
             _rb.AddForce(Vector2.up * _jumpForce * Time.deltaTime, ForceMode2D.Impulse);
         }
         if(_rb.velocity.y < 0 && !isGrounded)

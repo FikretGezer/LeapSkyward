@@ -10,12 +10,14 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] private float _lerpSpeed = 1f; // How far should camera be in y axis
     
     [SerializeField] private bool followCam;
+    [SerializeField] private AudioClip _dyingClip;
 
     [Header("Camera Move Parameters")]
     [SerializeField] private float moveSpeed = 1f;
 
     private float highestY = -2f;
     private Camera _camera;
+    private bool isClipPlayed;
 
     private void Awake() {
         _camera = Camera.main;
@@ -48,9 +50,12 @@ public class CameraMovement : MonoBehaviour
         Vector3 point = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0f));        
         if(_playerTransform.position.y + 0.7f < point.y)
         {
-           Debug.Log("Shit");
-           ButtonController.Instance.EnableEndGameMenu();
-           //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("Shit");
+            if(!isClipPlayed)
+                SoundController.Instance.PlaySoundFX(_dyingClip, transform, 1f);
+            isClipPlayed = true;
+            ButtonController.Instance.EnableEndGameMenu();
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
 
     }
