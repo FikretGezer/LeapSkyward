@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ButtonController : MonoBehaviour
 {
     [SerializeField] private GameObject[] itemsOnMenu;
     [SerializeField] private GameObject[] itemsInGame;
     [SerializeField] private Transform inGameCanvas;
+    [SerializeField] private TMP_Text currentScoreText;
+    [SerializeField] private TMP_Text highestScoreText;
 
     private GameObject gamePanel;
     private GameObject pausePanel;
@@ -28,6 +31,7 @@ public class ButtonController : MonoBehaviour
         gamePanel.SetActive(false);
         pausePanel.SetActive(false);
         endGamePanel.SetActive(true);
+        ScoreManager.Instance.EndScoreToText(currentScoreText, highestScoreText);
         Time.timeScale = 0f;
     }
     public void Play()

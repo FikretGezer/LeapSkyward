@@ -18,7 +18,7 @@ public class ComboCounter : MonoBehaviour
     [SerializeField] private Image _comboBarBG;
     private float _comboBarMax;
 
-    private int comboCount = 0;
+    [HideInInspector] public int comboCount = 0;
     public static ComboCounter Instance;
     private void Awake() {
         if(Instance == null) Instance = this;

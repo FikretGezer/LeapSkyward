@@ -19,7 +19,11 @@ public class CameraMovement : MonoBehaviour
     private Camera _camera;
     private bool isClipPlayed;
 
+    [HideInInspector] public bool isHeDead;
+
+    public static CameraMovement Instance;
     private void Awake() {
+        if(Instance == null) Instance = this;
         _camera = Camera.main;
     }
     private void Update() {
@@ -50,7 +54,7 @@ public class CameraMovement : MonoBehaviour
         Vector3 point = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0f));        
         if(_playerTransform.position.y + 0.7f < point.y)
         {
-            Debug.Log("Shit");
+            isHeDead = true;
             if(!isClipPlayed)
                 SoundController.Instance.PlaySoundFX(_dyingClip, transform, 1f);
             isClipPlayed = true;

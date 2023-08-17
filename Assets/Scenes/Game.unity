@@ -722,7 +722,7 @@ GameObject:
   - component: {fileID: 190092417}
   - component: {fileID: 190092416}
   m_Layer: 5
-  m_Name: Tutorial
+  m_Name: Tutorial Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1684,7 +1684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 50
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1921,6 +1921,7 @@ MonoBehaviour:
   followCam: 1
   _dyingClip: {fileID: 8300000, guid: 76a15d6ba0b17c24badb29f9aa2de9c6, type: 3}
   moveSpeed: 0.5
+  isHeDead: 0
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2862,7 +2863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2895,7 +2896,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1834188616}
         m_TargetAssemblyTypeName: SoundMixerManager, LeapSkywardScripts
-        m_MethodName: SoundFXOnOff
+        m_MethodName: MuteSoundFX
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3566,7 +3567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3599,7 +3600,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1834188616}
         m_TargetAssemblyTypeName: SoundMixerManager, LeapSkywardScripts
-        m_MethodName: MusicOnOff
+        m_MethodName: MuteMusic
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3722,6 +3723,7 @@ MonoBehaviour:
   _comboCountTxt: {fileID: 999779396}
   _comboAnimator: {fileID: 0}
   _comboBarBG: {fileID: 984655239}
+  comboCount: 0
 --- !u!4 &1180328132
 Transform:
   m_ObjectHideFlags: 0
@@ -3772,6 +3774,8 @@ MonoBehaviour:
   - {fileID: 752627015}
   - {fileID: 1469380149}
   inGameCanvas: {fileID: 1469380153}
+  currentScoreText: {fileID: 482365428}
+  highestScoreText: {fileID: 1955380787}
 --- !u!4 &1198403521
 Transform:
   m_ObjectHideFlags: 0
@@ -4082,7 +4086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1243969388}
   m_Layer: 5
-  m_Name: MasterV
+  m_Name: Master Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5192,7 +5196,7 @@ GameObject:
   - component: {fileID: 1546155544}
   - component: {fileID: 1546155543}
   m_Layer: 5
-  m_Name: Highest Score
+  m_Name: Highest Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6472,10 +6476,13 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 3501ee62a457a76438154ad1dddf987e, type: 2}
   musicOn: {fileID: 21300000, guid: 82a8fab3d26baa147a948010e898fb09, type: 3}
   musicOff: {fileID: 21300000, guid: e6da8c437c3326440be093736dc4a613, type: 3}
-  effectsOn: {fileID: 21300000, guid: 3681fa24984f9684e88d1c418a041199, type: 3}
-  effectsOff: {fileID: 21300000, guid: 83e57288b67066e459e27bf9b6df5014, type: 3}
+  soundFXOn: {fileID: 21300000, guid: 3681fa24984f9684e88d1c418a041199, type: 3}
+  soundFXOff: {fileID: 21300000, guid: 83e57288b67066e459e27bf9b6df5014, type: 3}
   musicButton: {fileID: 1050056404}
   soundFXButton: {fileID: 853251998}
+  musicSource: {fileID: 1824570337}
+  soundFXSource: {fileID: 8569073044198876269, guid: 26708bda4a0e85a4d941cbef15f59fc7, type: 3}
+  _masterVolumeSlider: {fileID: 2057501865}
   musicVolume: 1
   soundFXVolume: 1
 --- !u!4 &1834188617
@@ -7023,7 +7030,7 @@ GameObject:
   - component: {fileID: 1949144783}
   - component: {fileID: 1949144782}
   m_Layer: 5
-  m_Name: Current Score
+  m_Name: Current Score Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7158,7 +7165,7 @@ GameObject:
   - component: {fileID: 1955380788}
   - component: {fileID: 1955380787}
   m_Layer: 5
-  m_Name: Highest Score_1
+  m_Name: Highest Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7203,7 +7210,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 500
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7515,7 +7522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7657,7 +7664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}

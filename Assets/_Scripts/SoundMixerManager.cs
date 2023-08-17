@@ -8,72 +8,88 @@ public class SoundMixerManager : MonoBehaviour
 {
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private Sprite musicOn, musicOff;
-    [SerializeField] private Sprite effectsOn, effectsOff;
+    [SerializeField] private Sprite soundFXOn, soundFXOff;
 
     [SerializeField] private Image musicButton, soundFXButton;
+
+    [SerializeField] private AudioSource musicSource, soundFXSource;
+    [SerializeField] private Slider _masterVolumeSlider;
 
     [HideInInspector] public float musicVolume = 1f;
     [HideInInspector] public float soundFXVolume = 1f;
 
+
+
     private void Awake() {
-        if(PlayerPrefs.HasKey("SoundFXVolume"))
+        if(PlayerPrefs.HasKey("isMusicMuted"))
         {
-            var value = PlayerPrefs.GetFloat("SoundFXVolume");
-            SetSoundFXVolume(value);
-            if(value > 0.0001f) soundFXButton.sprite = effectsOn;
-            else soundFXButton.sprite = effectsOff;
+            var isMuted = PlayerPrefs.GetInt("isMusicMuted");
+            if(isMuted == 0)
+            {
+                musicSource.mute = false;
+                musicButton.sprite = musicOn;
+            }
+            else
+            {
+                musicSource.mute = true;
+                musicButton.sprite = musicOff;
+            } 
         }
-        if(PlayerPrefs.HasKey("MusicVolume"))
+        if(PlayerPrefs.HasKey("isSoundFXMuted"))
         {
-            var value = PlayerPrefs.GetFloat("MusicVolume");
-            SetMusicVolume(value);
-            if(value > 0.0001f) musicButton.sprite = musicOn;
-            else musicButton.sprite = musicOff;
+            var isMuted = PlayerPrefs.GetInt("isSoundFXMuted");
+            if(isMuted == 0)
+            {
+                soundFXSource.mute = false;
+                soundFXButton.sprite = soundFXOn;
+            }
+            else
+            {
+                soundFXSource.mute = true;
+                soundFXButton.sprite = soundFXOff;
+            } 
+        }
+    }
+    private void Start() {
+        if(PlayerPrefs.HasKey("MasterVolumeP"))
+        {
+            var volume = PlayerPrefs.GetFloat("MasterVolumeP");    
+            _masterVolumeSlider.value = volume;  
+            SetMasterVolume(volume);    
         }
     }
     public void SetMasterVolume(float volume)
     {
-        var vlm = Mathf.Log(volume) * 20f;
+        var vlm = Mathf.Log(volume) * 20f;  
         audioMixer.SetFloat("MasterVolume", vlm);
+        PlayerPrefs.SetFloat("MasterVolumeP", volume);
     }
-    public void SetMusicVolume(float volume)
+    public void MuteMusic()
     {
-        audioMixer.SetFloat("MusicVolume", Mathf.Log(volume) * 20f);
-    }
-    public void SetSoundFXVolume(float volume)
-    {
-        audioMixer.SetFloat("SoundFXVolume", Mathf.Log(volume) * 20f);
-    }
-    public void MusicOnOff()
-    {
-        if(musicVolume > 0.0001f)
-        {
-            musicVolume = 0.0001f;
-            musicButton.sprite = musicOff;
-            SetMusicVolume(musicVolume);
-        }
-        else
-        {
-            musicVolume = 1f;
+        var isMuted = musicSource.mute;
+        if(isMuted){
+            musicSource.mute = false;
             musicButton.sprite = musicOn;
-            SetMusicVolume(musicVolume);
+            PlayerPrefs.SetInt("isMusicMuted", 0);
         }
-        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        else{
+            musicSource.mute = true;
+            musicButton.sprite = musicOff;
+            PlayerPrefs.SetInt("isMusicMuted", 1);
+        }
     }
-    public void SoundFXOnOff()
+    public void MuteSoundFX()
     {
-        if(soundFXVolume > 0.0001f)
-        {
-            soundFXVolume = 0.0001f;
-            soundFXButton.sprite = effectsOff;
-            SetSoundFXVolume(soundFXVolume);
+        var isMuted = soundFXSource.mute;
+        if(isMuted){
+            soundFXSource.mute = false;
+            soundFXButton.sprite = soundFXOn;
+            PlayerPrefs.SetInt("isSoundFXMuted", 0);
         }
-        else
-        {
-            soundFXVolume = 1f;
-            soundFXButton.sprite = effectsOn;
-            SetSoundFXVolume(soundFXVolume);
+        else{
+            soundFXSource.mute = true;
+            soundFXButton.sprite = soundFXOff;
+            PlayerPrefs.SetInt("isSoundFXMuted", 1);
         }
-        PlayerPrefs.SetFloat("SoundFXVolume", soundFXVolume);
     }
 }
