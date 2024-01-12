@@ -8,15 +8,14 @@
 </div>
 
 ## What is this game about?
-Leap Skyward is a score oriented game that has pixel art style. 
-* The goal of the players is jumping between platforms that has different speeds without falling down.
-* Each time players jump on a platform the timer starts and within the next successful jump without exceeding the timer, it will be refilled again and players will be able to make combo jumps.
-* Every time players jump a platform successfully, they earn points and also end of every combos players earn extra points which is equals jump count * successful jump point.
-* Ultimate goal is to make it highest score possible while avoiding falling off of the screen.
+Leap Skyward is a score oriented game with a pixel art style. 
+* The goal of the players is to jump between platforms that have different speeds without falling down.
+* Each time players jump on a platform, the timer starts, and within the next successful jump without exceeding the timer, it will be refilled again, allowing players to make combo jumps.
+* Every time players successfully jump on a platform, they earn points. At the end of every combo, players earn extra points, which are equal to the jump count multiplied by the successful jump point.
+* The ultimate goal is to achieve the highest score possible while avoiding falling off the screen.
 
 ## Background and Development
-I wasn't new to character movements and physics but I hadn't used them for a long time so to remember them I made this game. The things that I did are; 
-* Implemented physics based jumping and movement and also I wanted to make the jumping similar to the mario's style (Character is falling faster than he's jumping and pressing more to jumping key will be resulted the character gains more height). 
-* Made the character stay on platform with parenting the character to the platform.
-* Implemented the endless looped background and platforms so players are able to make highest score possible.
-
+I wasn't new to character movements and physics, but I hadn't used them for a long time. To refresh my memory, I created this game. The things that I did include:
+* Implemented physics-based jumping and movement. I also aimed to make the jumping similar to Mario's style, where the character falls faster than it jumps, and pressing the jump key more results in the character gaining more height.
+* Made the character stay on the platform by parenting the character to the platform.
+* Implemented the endless looped background and platforms so players can achieve the highest score possible.
