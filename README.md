@@ -8,7 +8,11 @@
 </div>
 
 ## What is this game about?
-Leap Skyward is a score oriented game that has pixel art style. The goal of the players is jumping between platforms that has different speeds without falling down. Each time players jump on a platform the timer starts and within the next successful jump without exceeding the timer, it will be refilled again and players will be able to make combo jumps. Every time players jump a platform successfully, they earn points and also end of every combos players earn extra points which is equals jump count * successful jump point. Ultimate goal is to make it highest score possible while avoiding falling off of the screen.
+Leap Skyward is a score oriented game that has pixel art style. 
+* The goal of the players is jumping between platforms that has different speeds without falling down.
+* Each time players jump on a platform the timer starts and within the next successful jump without exceeding the timer, it will be refilled again and players will be able to make combo jumps.
+* Every time players jump a platform successfully, they earn points and also end of every combos players earn extra points which is equals jump count * successful jump point.
+* Ultimate goal is to make it highest score possible while avoiding falling off of the screen.
 
 ## Background and Development
 I wasn't new to character movements and physics but I hadn't used them for a long time so to remember them I made this game. The things that I did are; 
